@@ -5,7 +5,7 @@ type Tag struct {
 }
 
 func (c *Client) ListTags() ([]byte, error) {
-	return c.request("GET", "/tags", nil)
+	return c.request("GET", "/tags/list", nil)
 }
 
 func (c *Client) CreateTag(tag Tag) ([]byte, error) {
