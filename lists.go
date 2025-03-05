@@ -5,7 +5,7 @@ type List struct {
 }
 
 func (c *Client) ListLists() ([]byte, error) {
-	return c.request("GET", "/lists", nil)
+	return c.request("GET", "/lists/list", nil)
 }
 
 func (c *Client) CreateList(list List) ([]byte, error) {
