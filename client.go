@@ -8,18 +8,16 @@ import (
 	"net/http"
 )
 
-const BaseURL = "https://api.yonoma.io/v1"
+const BaseURL = "http://api.yonoma.io/v1/"
 
 type Client struct {
 	APIKey string
 }
 
-// NewClient initializes a new Yonoma API client
 func NewClient(apiKey string) *Client {
 	return &Client{APIKey: apiKey}
 }
 
-// request sends an HTTP request and returns the response body
 func (c *Client) request(method, endpoint string, payload interface{}) ([]byte, error) {
 	url := BaseURL + endpoint
 	var reqBody []byte

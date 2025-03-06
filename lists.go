@@ -5,21 +5,21 @@ type List struct {
 }
 
 func (c *Client) ListLists() ([]byte, error) {
-	return c.request("GET", "/lists/list", nil)
+	return c.request("GET", "lists/list", nil)
 }
 
-func (c *Client) CreateList(list List) ([]byte, error) {
-	return c.request("POST", "/lists", list)
+func (c *Client) CreateList(listData map[string]interface{}) ([]byte, error) {
+	return c.request("POST", "lists/create", listData)
 }
 
-func (c *Client) UpdateList(id string, list List) ([]byte, error) {
-	return c.request("PUT", "/lists/"+id, list)
+func (c *Client) UpdateList(listID string, listData map[string]interface{}) ([]byte, error) {
+	return c.request("POST", "lists/"+listID+"/update", listData)
 }
 
-func (c *Client) RetrieveList(id string) ([]byte, error) {
-	return c.request("GET", "/lists/"+id, nil)
+func (c *Client) RetrieveList(listID string) ([]byte, error) {
+	return c.request("GET", "lists/"+listID, nil)
 }
 
-func (c *Client) DeleteList(id string) ([]byte, error) {
-	return c.request("DELETE", "/lists/"+id, nil)
+func (c *Client) DeleteList(listID string) ([]byte, error) {
+	return c.request("POST", "lists/"+listID+"/delete", nil)
 }

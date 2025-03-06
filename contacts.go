@@ -1,25 +1,28 @@
 package yonoma
 
+import "fmt"
+
 type Contact struct {
 	Email string `json:"email"`
 	Name  string `json:"name,omitempty"`
 }
 
-func (c *Client) CreateContact(contact Contact) ([]byte, error) {
-	return c.request("POST", "/contacts", contact)
+func (c *Client) CreateContact(listID string, contactData map[string]interface{}) ([]byte, error) {
+	endpoint := fmt.Sprintf("contacts/%s/create", listID)
+	return c.request("POST", endpoint, contactData)
 }
 
-func (c *Client) UnsubscribeContact(email string) ([]byte, error) {
-	payload := map[string]string{"email": email}
-	return c.request("POST", "/contacts/unsubscribe", payload)
+func (c *Client) UnsubscribeContact(listID string, contactId string, contactData map[string]interface{}) ([]byte, error) {
+	endpoint := fmt.Sprintf("contacts/%s/status/%s", listID, contactId)
+	return c.request("POST", endpoint, contactData)
 }
 
-func (c *Client) LabelContactWithTag(email, tag string) ([]byte, error) {
-	payload := map[string]string{"email": email, "tag": tag}
-	return c.request("POST", "/contacts/tag", payload)
+func (c *Client) AddTag(contactId string, contactData map[string]interface{}) ([]byte, error) {
+	endpoint := fmt.Sprintf("contacts/tags/%s/add", contactId)
+	return c.request("POST", endpoint, contactData)
 }
 
-func (c *Client) RemoveContactTag(email, tag string) ([]byte, error) {
-	payload := map[string]string{"email": email, "tag": tag}
-	return c.request("POST", "/contacts/untag", payload)
+func (c *Client) RemoveContactTag(contactId string, contactData map[string]interface{}) ([]byte, error) {
+	endpoint := fmt.Sprintf("contacts/tags/%s/remove", contactId)
+	return c.request("POST", endpoint, contactData)
 }
