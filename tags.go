@@ -3,20 +3,20 @@ package yonoma
 import "fmt"
 
 type Tag struct {
-	Name string `json:"name"`
+	Name string `json:"tag_name"`
 }
 
 func (c *Client) ListTags() ([]byte, error) {
-	return c.request("GET", "/tags/list", nil)
+	return c.request("GET", "tags/list", nil)
 }
 
-func (c *Client) CreateTag(tagData map[string]interface{}) ([]byte, error) {
-	return c.request("POST", "/tags/create", tagData)
+func (c *Client) CreateTag(tag Tag) ([]byte, error) {
+	return c.request("POST", "tags/create", tag)
 }
 
-func (c *Client) UpdateTag(tagID string, tagData map[string]interface{}) ([]byte, error) {
+func (c *Client) UpdateTag(tagID string, tag Tag) ([]byte, error) {
 	endpoint := fmt.Sprintf("tags/%s/update", tagID)
-	return c.request("POST", endpoint, tagData)
+	return c.request("POST", endpoint, tag)
 }
 
 func (c *Client) RetrieveTag(tagID string) ([]byte, error) {
