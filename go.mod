@@ -1,3 +1,3 @@
-module github.com/SuthishTwinarcus/go-package-ema
+module github.com/YonomaHQ/yonoma-go
 
 go 1.24.0
