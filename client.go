@@ -10,7 +10,7 @@ import (
 
 const BaseURL = "http://api.yonoma.io/v1/"
 
-const Version = "yonoma-go 1.1.22"
+const Version = "yonoma-go:1.1.22"
 
 type Client struct {
 	APIKey string
