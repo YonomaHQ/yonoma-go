@@ -10,6 +10,8 @@ import (
 
 const BaseURL = "http://api.yonoma.io/v1/"
 
+const Version = "yonoma-go 1.1.22"
+
 type Client struct {
 	APIKey string
 }
@@ -37,6 +39,7 @@ func (c *Client) request(method, endpoint string, payload interface{}) ([]byte, 
 
 	req.Header.Set("Authorization", "Bearer "+c.APIKey)
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("User-Agent", Version)
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
