@@ -7,22 +7,17 @@ import (
 
 // Contact represents a user's contact details.
 type Contact struct {
-	Email  string      `json:"email"`
-	Status string      `json:"status"`
-	Data   ContactData `json:"data"`
-}
-
-// ContactData stores additional information about a contact.
-type ContactData struct {
-	FirstName   string `json:"firstName"`
-	LastName    string `json:"lastName"`
-	Phone       string `json:"phone"`
-	DateOfBirth string `json:"dateOfBirth"`
-	Address     string `json:"address"`
-	City        string `json:"city"`
-	State       string `json:"state"`
-	Country     string `json:"country"`
-	Zipcode     string `json:"zipcode"`
+	Email       string `json:"email"`
+    	Status      string `json:"status"`
+    	FirstName   string `json:"firstName"`
+    	LastName    string `json:"lastName"`
+    	Phone       string `json:"phone"`
+    	DateOfBirth string `json:"dateOfBirth"`
+    	Address     string `json:"address"`
+    	City        string `json:"city"`
+    	State       string `json:"state"`
+    	Country     string `json:"country"`
+    	Zipcode     string `json:"zipcode"`
 }
 
 // Status represents a contact's subscription status.
