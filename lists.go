@@ -1,30 +1,41 @@
 package yonoma
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
+// ListRequest represents the structure for creating or updating a list.
 type List struct {
 	Name string `json:"list_name"`
 }
 
-func (c *Client) ListLists() ([]byte, error) {
-	return c.request("GET", "lists/list", nil)
+// Create adds a new list.
+func (l *Client) CreateList(request List) ([]byte, error) {
+	endpoint := "/lists/create"
+	return l.request(http.MethodPost, endpoint, request)
 }
 
-func (c *Client) CreateList(list List) ([]byte, error) {
-	return c.request("POST", "lists/create", list)
+// Update modifies an existing mailing list.
+func (l *Client) UpdateList(listID string, request List) ([]byte, error) {
+	endpoint := fmt.Sprintf("/lists/%s/update", listID)
+	return l.request(http.MethodPost, endpoint, request)
 }
 
-func (c *Client) UpdateList(listID string, list List) ([]byte, error) {
-	endpoint := fmt.Sprintf("lists/%s/update", listID)
-	return c.request("POST", endpoint, list)
+// Get retrieves details of a specific list.
+func (l *Client) RetrieveList(listID string) ([]byte, error) {
+	endpoint := fmt.Sprintf("/lists/%s", listID)
+	return l.request(http.MethodGet, endpoint, nil)
 }
 
-func (c *Client) RetrieveList(listID string) ([]byte, error) {
-	endpoint := fmt.Sprintf("lists/%s", listID)
-	return c.request("GET", endpoint, nil)
+// List retrieves all mailing lists.
+func (l *Client) ListLists() ([]byte, error) {
+	endpoint := "/lists/list"
+	return l.request(http.MethodGet, endpoint, nil)
 }
 
-func (c *Client) DeleteList(listID string) ([]byte, error) {
-	endpoint := fmt.Sprintf("lists/%s/delete", listID)
-	return c.request("DELETE", endpoint, nil)
+// Delete removes a mailing list by ID.
+func (l *Client) DeleteList(listID string) ([]byte, error) {
+	endpoint := fmt.Sprintf("/lists/%s/delete", listID)
+	return l.request(http.MethodDelete, endpoint, nil)
 }

@@ -4,57 +4,70 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"net/http"
+	"time"
 )
 
-const BaseURL = "http://api.yonoma.io/v1/"
-
-const Version = "yonoma-go:1.1.22"
-
+// Client represents the Yonoma API client.
 type Client struct {
-	APIKey string
+	APIKey     string
+	BaseURL    string
+	HTTPClient *http.Client
 }
 
+// NewClient initializes a new Yonoma API client with optimized settings.
 func NewClient(apiKey string) *Client {
-	return &Client{APIKey: apiKey}
+	return &Client{
+		APIKey:  apiKey,
+		BaseURL: "https://api.yonoma.io/v1",
+		HTTPClient: &http.Client{
+			Timeout: 10 * time.Second, // Set a timeout to avoid long waits
+		},
+	}
 }
 
-func (c *Client) request(method, endpoint string, payload interface{}) ([]byte, error) {
-	url := BaseURL + endpoint
-	var reqBody []byte
-	var err error
+// request sends an HTTP request to the Yonoma API.
+func (c *Client) request(method, endpoint string, data interface{}) ([]byte, error) {
+	url := fmt.Sprintf("%s%s", c.BaseURL, endpoint)
 
-	if payload != nil {
-		reqBody, err = json.Marshal(payload)
+	// Convert struct to JSON if data is provided
+	var requestBody []byte
+	if data != nil {
+		var err error
+		requestBody, err = json.Marshal(data)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("error serializing request data: %w", err)
 		}
 	}
 
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(reqBody))
+	// Create HTTP request
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(requestBody))
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	req.Header.Set("Authorization", "Bearer "+c.APIKey)
+	// Set headers
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("User-Agent", Version)
+	req.Header.Set("Authorization", "Bearer "+c.APIKey)
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	// Perform request
+	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("request failed: %w", err)
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
+	// Check HTTP response status
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		body, _ := ioutil.ReadAll(resp.Body)
+		return nil, fmt.Errorf("API error: %s - %s", resp.Status, string(body))
 	}
 
-	if resp.StatusCode >= 400 {
-		return nil, fmt.Errorf("API error: %s", string(body))
+	// Read response body
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
 
 	return body, nil

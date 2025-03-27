@@ -1,7 +1,7 @@
 ## [Yonoma](https://yonoma.io/) Go Email Marketing SDK
 ### Install
 ```bash
-go get github.com/YonomaHQ/yonoma
+go get github.com/YonomaHQ/yonoma-go
 ```
 ### Setup
 First, you need to get an API key:
@@ -17,7 +17,12 @@ email := yonoma.Email{
     Subject:      "Welcome to Yonoma - You're In!",
     MailTemplate: "We're excited to welcome you to Yonoma! Your successful signup marks the beginning of what we hope will be an exceptional journey."
 }
-response, _ := client.Send(email)
+response, err := client.Send(email)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 ## Contacts
 #### Create new contact
@@ -37,29 +42,48 @@ contactData := yonoma.Contact{
         Zipcode:   string,
     },
 }
-response, _ := client.CreateContact("List Id", contactData) 
+responseC, err := client.CreateContact("List Id", contactData)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(responseC))
+}
 ```
 #### Update contact
 ```go
 contactData := yonoma.Status{
 	Status: "Subscribed" | "Unsubscribed",
 }
-response, _ := client.UnsubscribeContact("List Id", "Contact Id", contactData)
+response, err := client.UnsubscribeContact("List Id", "Contact Id", contactData)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 #### Add tag to contact
 ```go
 contactData := yonoma.TagId{
-	TagId: "Tag Id",
+    TagId: "Tag Id",
 }
-response, _ := client.AddContactTag("Contact Id", contactData)
+response, err := client.AddContactTag("Contact Id", contactData)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 #### Remove tag from contact
 ```go
 contactData := yonoma.TagId{
-	TagId: "Tag Id",
+    TagId: "Tag Id",
 }
-response, _ := client.RemoveContactTag("Contact Id", contactData)
-
+response, err := client.RemoveContactTag("Contact Id", contactData)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 ## Managing Tags
 #### Create a Tag
@@ -67,26 +91,51 @@ response, _ := client.RemoveContactTag("Contact Id", contactData)
 tagData := yonoma.Tag{
 	Name: "Tag Name",
 }
-response, _ := client.CreateTag(tagData)
+response, err := client.CreateTag(tagData)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 #### Update a Tag
 ```go
 tagData := yonoma.Tag{
 	Name: "Tag Name",
 }
-response, _ := client.UpdateTag(tagData)
+response, err := client.UpdateTag(tagData)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 #### Delete a Tag
 ```go
-response, _ := client.DeleteTag("Tag Id")
+response, err := client.DeleteTag("Tag Id")
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 #### Retrieve a Specific Tag
 ```go
-response, _ := client.RetrieveTag("Tag Id")
+response, err := client.RetrieveTag("Tag Id")
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 #### List All Tags
 ```go
-response, _ := client.ListTags()
+response, err := client.ListTags()
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 ## Managing Lists
 #### Create a List
@@ -94,7 +143,12 @@ response, _ := client.ListTags()
 listData := yonoma.List{
 	Name: "List Name",
 }
-response, _ := client.CreateList(listData)
+response, err := client.CreateList(listData)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 
 ```
 #### Update a List
@@ -102,19 +156,39 @@ response, _ := client.CreateList(listData)
 listData := yonoma.List{
 	Name: "List Name",
 }
-response, _ := client.UpdateList("List Id", listData)
+response, err := client.UpdateList("List Id", listData)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
+
 ```
 #### Delete a List
 ```go
-response, _ := client.DeleteList("List Id")
+response, err := client.DeleteList("List Id")
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 #### Retrieve a Specific List
 ```go
-response, _ := client.RetrieveList("List Id")
+response, err := client.RetrieveList("List Id")
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
 #### List All Lists
 ```go
-response, _ := client.ListLists()
+response, err := client.ListLists()
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Response:", string(response))
+}
 ```
-
 
